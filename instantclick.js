@@ -23,6 +23,7 @@ var InstantClick = function(document, location) {
 	var $eventsCallbacks = {
 		change: []
 	}
+	var $selector
 
 
 	////////// HELPERS //////////
@@ -182,7 +183,8 @@ var InstantClick = function(document, location) {
 
 
 	function instantanize(isInitializing) {
-		var as = document.getElementsByTagName('a'), a, domain = location.protocol + '//' + location.host
+		var as = document.querySelectorAll($selector);
+		var a, domain = location.protocol + '//' + location.host
 		for (var i = as.length - 1; i >= 0; i--) {
 			a = as[i]
 			if (a.target || // target="_blank" etc.
@@ -354,18 +356,14 @@ var InstantClick = function(document, location) {
 			triggerPageEvent('change')
 			return
 		}
-		for (var i = arguments.length - 1; i >= 0; i--) {
-			var arg = arguments[i]
-			if (arg === true) {
-				$useWhitelist = true
-			}
-			else if (arg == 'mousedown') {
-				$preloadOnMousedown = true
-			}
-			else if (typeof arg == 'number') {
-				$delayBeforePreload = arg
-			}
-		}
+
+		var args = arguments[0]
+
+        $useWhitelist = args.whitelist ? true : false;
+        $preloadOnMousedown = args.mouseover ? true : false;
+        $delayBeforePreload = (typeof args.delay == 'number') ? args.delay : 0;
+        $selector = (args.selector.length > 0) ? args.selector : 'a';
+        
 		$currentLocationWithoutHash = removeHash(location.href)
 		$history[$currentLocationWithoutHash] = {
 			body: document.body.outerHTML,
@@ -403,7 +401,7 @@ var InstantClick = function(document, location) {
 	   the debug function, and uncomment "debug: debug," in the return
 	   statement below the function. */
 
-	/*
+	//*
 	function debug() {
 		return {
 			currentLocationWithoutHash: $currentLocationWithoutHash,
