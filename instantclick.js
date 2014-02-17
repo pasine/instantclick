@@ -363,7 +363,7 @@ var InstantClick = function(document, location) {
         $preloadOnMousedown = args.mouseover ? true : false;
         $delayBeforePreload = (typeof args.delay == 'number') ? args.delay : 0;
         $selector = (args.selector.length > 0) ? args.selector : 'a';
-        
+
 		$currentLocationWithoutHash = removeHash(location.href)
 		$history[$currentLocationWithoutHash] = {
 			body: document.body.outerHTML,
@@ -401,7 +401,7 @@ var InstantClick = function(document, location) {
 	   the debug function, and uncomment "debug: debug," in the return
 	   statement below the function. */
 
-	//*
+	/*
 	function debug() {
 		return {
 			currentLocationWithoutHash: $currentLocationWithoutHash,
@@ -423,7 +423,7 @@ var InstantClick = function(document, location) {
 
 
 	return {
-		// debug: debug,
+		debug: debug,
 		supported: supported,
 		init: init,
 		on: on
